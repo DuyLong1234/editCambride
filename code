@@ -1,15 +1,16 @@
 class encn_Cambridge {
     constructor(options) {
+        this.token = '';
+        this.gtk = '';
         this.options = options;
         this.maxexample = 2;
         this.word = '';
     }
 
+
     async displayName() {
-        let locale = await api.locale();
-        if (locale.indexOf('CN') != -1) return '剑桥英汉双解(简体)';
-        if (locale.indexOf('TW') != -1) return '劍橋英漢雙解(簡體)';
-        return 'Cambridge EN->EN dictonary DuyLong';
+        
+        return 'Cambridge EN->EN DictionaryDuyLong';
     }
 
     setOptions(options) {
@@ -35,7 +36,7 @@ class encn_Cambridge {
                 return node.innerText.trim();
         }
 
-        let base = 'https://dictionary.cambridge.org/search/english-chinese-simplified/direct/?q=';
+        let base = 'https://dictionary.cambridge.org/spellcheck/english/?q=';
         let url = base + encodeURIComponent(word);
         let doc = '';
         try {
@@ -87,11 +88,11 @@ class encn_Cambridge {
                     // make definition segement
                     for (const defblock of defblocks) {
                         let eng_tran = T(defblock.querySelector('.ddef_h .def'));
-                     
+                        let chn_tran = T(defblock.querySelector('.def-body .trans'));
                         if (!eng_tran) continue;
                         let definition = '';
                         eng_tran = `<span class='eng_tran'>${eng_tran.replace(RegExp(expression, 'gi'),`<b>${expression}</b>`)}</span>`;
-                       
+                        chn_tran = `<span class='chn_tran'>${chn_tran}</span>`;
                         let tran = `<span class='tran'>${eng_tran}${chn_tran}</span>`;
                         definition += phrasehead ? `${phrasehead}${tran}` : `${pos}${tran}`;
 
