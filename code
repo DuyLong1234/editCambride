@@ -1,9 +1,12 @@
 class encn_Cambridge {
     constructor(options) {
+        this.token = '';
+        this.gtk = '';
         this.options = options;
         this.maxexample = 2;
         this.word = '';
     }
+
 
     async displayName() {
         
