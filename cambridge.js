@@ -13,6 +13,7 @@ class Cambridge_DictionaryDuyLong {
         return 'Cambridge EN->EN DictionaryDuyLong';
     }
 
+   
     setOptions(options) {
         this.options = options;
         this.maxexample = options.maxexample;
@@ -36,7 +37,7 @@ class Cambridge_DictionaryDuyLong {
                 return node.innerText.trim();
         }
 
-        let base = 'https://dictionary.cambridge.org/spellcheck/english/?q=';
+        let base = 'https://dictionary.cambridge.org/search/english-chinese-simplified/direct/?q=';
         let url = base + encodeURIComponent(word);
         let doc = '';
         try {
@@ -88,12 +89,12 @@ class Cambridge_DictionaryDuyLong {
                     // make definition segement
                     for (const defblock of defblocks) {
                         let eng_tran = T(defblock.querySelector('.ddef_h .def'));
-                        let chn_tran = T(defblock.querySelector('.def-body .trans'));
+                      
                         if (!eng_tran) continue;
                         let definition = '';
                         eng_tran = `<span class='eng_tran'>${eng_tran.replace(RegExp(expression, 'gi'),`<b>${expression}</b>`)}</span>`;
-                        
-                        let tran = `<span class='tran'>${eng_tran}${chn_tran}</span>`;
+                       
+                        let tran = `<span class='tran'>${eng_tran}</span>`;
                         definition += phrasehead ? `${phrasehead}${tran}` : `${pos}${tran}`;
 
                         // make exmaple segement
